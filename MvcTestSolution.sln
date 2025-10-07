@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.PAL", "MvcTest\Mvc.PAL.csproj", "{C8B92742-482F-4B4B-A3F6-FCDBA7B90301}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.DAL", "Mvc.DAL\Mvc.DAL.csproj", "{100BC6BF-B325-4177-BF24-6618A52CF957}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.BLL", "Mvc.BLL\Mvc.BLL.csproj", "{DD8FED80-3ABB-41E1-915F-51D5DE87CE0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8B92742-482F-4B4B-A3F6-FCDBA7B90301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B92742-482F-4B4B-A3F6-FCDBA7B90301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B92742-482F-4B4B-A3F6-FCDBA7B90301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B92742-482F-4B4B-A3F6-FCDBA7B90301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{100BC6BF-B325-4177-BF24-6618A52CF957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100BC6BF-B325-4177-BF24-6618A52CF957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100BC6BF-B325-4177-BF24-6618A52CF957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100BC6BF-B325-4177-BF24-6618A52CF957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD8FED80-3ABB-41E1-915F-51D5DE87CE0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8FED80-3ABB-41E1-915F-51D5DE87CE0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8FED80-3ABB-41E1-915F-51D5DE87CE0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8FED80-3ABB-41E1-915F-51D5DE87CE0F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7748B601-0409-4BC8-86EF-21E4AC253D9D}
+	EndGlobalSection
+EndGlobal

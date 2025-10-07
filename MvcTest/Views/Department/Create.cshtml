@@ -1,0 +1,34 @@
+﻿@using Mvc.DAL.Models
+@model Department
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create New Department</h1>
+<br />
+<form asp-action="Create">
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Code"></label>
+        <input class=" form-control" asp-for="Code" />
+        <span class="text-danger" asp-validation-for="Code"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Name"></label>
+        <input class=" form-control" asp-for="Name" />
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="DateOfCreation"></label>
+        <input class=" form-control" asp-for="DateOfCreation" />
+        <span class="text-danger" asp-validation-for="DateOfCreation"></span>
+    </div>
+    <input class="btn btn-primary" type="submit" value="Submit" />
+    <a class="btn btn-light" asp-action="Index">Back To List</a>
+</form>
+@section ValidationScriptSection {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
