@@ -1,6 +1,5 @@
 ﻿@using Mvc.BLL.Interfaces
-@using Mvc.DAL.Models
-@model Employee
+@model EmployeeViewModel
 @inject IDepartmentRepo departmentRepo
 @{
     var dept = new SelectList(departmentRepo.GetAll(), "Id", "Name");

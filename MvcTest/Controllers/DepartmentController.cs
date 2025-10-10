@@ -7,15 +7,20 @@ namespace Mvc.PAL.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepo departmentRepo;
+        private readonly IUnitOfWork unitOfWork;
 
-        public DepartmentController(IDepartmentRepo departmentRepo)
+        //private readonly IDepartmentRepo departmentRepo;
+
+        public DepartmentController( IUnitOfWork unitOfWork
+            //IDepartmentRepo departmentRepo
+            )
         {
-            this.departmentRepo = departmentRepo;
+            this.unitOfWork = unitOfWork;
+            //this.departmentRepo = departmentRepo;
         }
         public IActionResult Index()
         {
-            var departments = departmentRepo.GetAll();
+            var departments = unitOfWork.EmployeeRepo.GetAll();
             return View(departments);
         }
 
@@ -29,7 +34,8 @@ namespace Mvc.PAL.Controllers
         {
             if (ModelState.IsValid)
             {
-                departmentRepo.Add(department);
+                unitOfWork.DepartmentRepo.Add(department);
+                unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             return View(department);
@@ -38,7 +44,7 @@ namespace Mvc.PAL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var department = departmentRepo.GetById(id.Value);
+            var department = unitOfWork.DepartmentRepo.GetById(id.Value);
             if (department is null)
                 return NotFound();
              return View(department);
@@ -48,7 +54,7 @@ namespace Mvc.PAL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var department = departmentRepo.GetById(id.Value);
+            var department = unitOfWork.DepartmentRepo.GetById(id.Value);
             if (department is null)
                 return NotFound();
             return View(department);
@@ -64,7 +70,8 @@ namespace Mvc.PAL.Controllers
             {
                 try
                 {
-                    departmentRepo.Update(department);
+                    unitOfWork.DepartmentRepo.Update(department);
+                    unitOfWork.Complete();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (System.Exception ex)
@@ -80,7 +87,7 @@ namespace Mvc.PAL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var department = departmentRepo.GetById(id.Value);
+            var department = unitOfWork.DepartmentRepo.GetById(id.Value);
             if (department is null)
                 return NotFound();
             return View(department);
@@ -96,7 +103,8 @@ namespace Mvc.PAL.Controllers
             {
                 try
                 {
-                    departmentRepo.Delete(department);
+                    unitOfWork.DepartmentRepo.Delete(department);
+                    unitOfWork.Complete();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (System.Exception ex)

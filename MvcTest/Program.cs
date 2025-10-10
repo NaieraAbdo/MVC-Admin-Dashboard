@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Mvc.BLL.Interfaces;
 using Mvc.BLL.Repositories;
 using Mvc.DAL.Contexts;
+using Mvc.PAL.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,8 @@ builder.Services.AddDbContext<MvcDbcontext>(Options =>
 
 builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
 builder.Services.AddScoped<IEmployeeRepo,EmployeeRepo>();
-
+builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build(); 
 
 // Configure the HTTP request pipeline.

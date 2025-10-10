@@ -1,23 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Mvc.BLL.Interfaces;
 using Mvc.DAL.Models;
+using Mvc.PAL.ViewModels;
 
 namespace Mvc.PAL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepo employeeRepo;
-        private readonly IDepartmentRepo departmentRepo;
+        private readonly IUnitOfWork unitOfWork;
 
-        public EmployeeController(IEmployeeRepo employeeRepo,IDepartmentRepo departmentRepo)
+        //private readonly IEmployeeRepo employeeRepo;
+        //private readonly IDepartmentRepo departmentRepo;
+        private readonly IMapper mapper;
+
+        public EmployeeController(IUnitOfWork unitOfWork
+            //IEmployeeRepo employeeRepo,IDepartmentRepo departmentRepo
+            ,IMapper mapper)
         {
-            this.employeeRepo = employeeRepo;
-            this.departmentRepo = departmentRepo;
+            this.unitOfWork = unitOfWork;
+            //this.employeeRepo = employeeRepo;
+            //this.departmentRepo = departmentRepo;
+            this.mapper = mapper;
         }
-        public IActionResult Index()
+        public IActionResult Index(string SearchValue)
         {
-            var emps = employeeRepo.GetAll();
-            return View(emps);
+            IEnumerable<Employee> emps;
+            //if(searchName is not null)
+            if (string.IsNullOrEmpty(SearchValue))
+                emps = unitOfWork.EmployeeRepo.GetAll();
+                    
+            else
+                emps = unitOfWork.EmployeeRepo.GetEmployeesByName(SearchValue);
+
+            var mappedEmps = mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(emps);
+            return View(mappedEmps);
         }
 
         public IActionResult Create()
@@ -27,13 +44,15 @@ namespace Mvc.PAL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Employee emp)
+        public IActionResult Create(EmployeeViewModel empVM)
         {
             //if (ModelState.IsValid)
             //Department is Invalid
             //{
-                employeeRepo.Add(emp);
-                return RedirectToAction(nameof(Index));
+            var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(empVM);
+            unitOfWork.EmployeeRepo.Add(mappedEmp);
+            unitOfWork.Complete();
+            return RedirectToAction(nameof(Index));
             //}
             //return View(emp);
         }
@@ -42,10 +61,11 @@ namespace Mvc.PAL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var employee = employeeRepo.GetById(id.Value);
+            var employee = unitOfWork.EmployeeRepo.GetById(id.Value);
             if (employee is null)
                 return NotFound();
-            return View(ViewName, employee);
+            var mappedEmp = mapper.Map<Employee, EmployeeViewModel>(employee);
+            return View(ViewName, mappedEmp);
         }
 
         public  IActionResult Edit(int? id)
@@ -55,15 +75,17 @@ namespace Mvc.PAL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Employee employee, [FromRoute] int id)
+        public IActionResult Edit(EmployeeViewModel employeeVM, [FromRoute] int id)
         {
-            if (id != employee.Id)
+            if (id != employeeVM.Id)
                 return BadRequest();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    employeeRepo.Update(employee);
+                    var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+                    unitOfWork.EmployeeRepo.Update(mappedEmp);
+                    unitOfWork.Complete();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (System.Exception ex)
@@ -73,7 +95,7 @@ namespace Mvc.PAL.Controllers
 
             }
             //ViewBag.depts = departmentRepo.GetAll();
-            return View(employee);
+            return View(employeeVM);
         }
 
         public IActionResult Delete(int? id)
@@ -82,13 +104,15 @@ namespace Mvc.PAL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Employee employee, [FromRoute] int? id)
+        public IActionResult Delete(EmployeeViewModel employeeVM, [FromRoute] int? id)
         {
-            if (id != employee.Id)
+            if (id != employeeVM.Id)
                 return BadRequest();
             try
             {
-                employeeRepo.Delete(employee);
+                var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+                unitOfWork.EmployeeRepo.Delete(mappedEmp);
+                unitOfWork.Complete();
 
 
                 return RedirectToAction(nameof(Index));
@@ -96,7 +120,7 @@ namespace Mvc.PAL.Controllers
             catch (System.Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                return View(employee);
+                return View(employeeVM);
             }
 
         }
