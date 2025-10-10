@@ -29,11 +29,8 @@
                     <td>@dept.Code</td>
                     <td>@dept.Name</td>
                     <td>@dept.DateOfCreation</td>
-                    @* <partial name="_ButtonsPartialView" model="@dept.Id" /> *@
-                    <td><a asp-action="Details" asp-route-id="@dept.Id"><i class="fas fa-eye"></i></a></td>
-                    <td><a asp-action="Edit" asp-route-id="@dept.Id"><i class="fas fa-edit"></i></a></td>
-                    <td><a asp-action="Delete" asp-route-id="@dept.Id"><i class="fas fa-trash"></i></a></td>
-
+                    <partial name="_ButtonsPartialView" model="@dept.Id" />
+                    
                 </tr>
             }
         </tbody>

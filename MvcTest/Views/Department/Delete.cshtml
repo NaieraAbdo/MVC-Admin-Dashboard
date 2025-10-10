@@ -9,21 +9,8 @@
 <div asp-validation-summary="All"></div>
 
 <form asp-action="Delete">
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Code"></label>
-        <input readonly class=" form-control" asp-for="Code" />
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Name"></label>
-        <input readonly class=" form-control" asp-for="Name" />
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="DateOfCreation"></label>
-        <input readonly class=" form-control" asp-for="DateOfCreation" />
-    </div>
-
+   
+    <partial name="PartialViews/DeleteDetailsPartialView" />
     <input class="btn btn-danger" type="submit" value="Delete" />
     <a class="btn btn-secondary" asp-action="Index">Cancel</a>
 </form>

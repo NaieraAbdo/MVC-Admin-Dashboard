@@ -59,11 +59,8 @@
                     {
                         <td> <i class="fa-solid fa-circle" style="color:red"> </i></td>
                     }
-                    @* <partial name="_ButtonsPartialView" model="@emp.Id" /> *@
-                    <td><a asp-action="Details" asp-route-id="@emp.Id"><i class="fas fa-eye"></i></a></td>
-                    <td><a asp-action="Edit" asp-route-id="@emp.Id"><i class="fas fa-edit"></i></a></td>
-                    <td><a asp-action="Delete" asp-route-id="@emp.Id"><i class="fas fa-trash"></i></a></td>
-
+                    <partial name="_ButtonsPartialView" model="@emp.Id" />
+                   
                 </tr>
             }
         </tbody>

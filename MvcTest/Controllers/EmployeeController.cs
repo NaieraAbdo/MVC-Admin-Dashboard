@@ -22,19 +22,20 @@ namespace Mvc.PAL.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.departments = departmentRepo.GetAll();
+            //ViewBag.departments = departmentRepo.GetAll();
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(Employee emp)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //Department is Invalid
+            //{
                 employeeRepo.Add(emp);
                 return RedirectToAction(nameof(Index));
-            }
-            return View(emp);
+            //}
+            //return View(emp);
         }
 
         public IActionResult Details(int? id, string ViewName = "Details")

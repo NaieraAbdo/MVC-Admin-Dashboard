@@ -8,59 +8,9 @@
 <div asp-validation-summary="All"></div>
 @* this is for catch exception *@
 <form asp-action="Edit">
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Name"></label>
-        <input class=" form-control" asp-for="Name" />
-        <span class="text-danger" asp-validation-for="Name"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Age"></label>
-        <input class=" form-control" asp-for="Age" />
-        <span class="text-danger" asp-validation-for="Age"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Salary"></label>
-        <input class=" form-control" asp-for="Salary" />
-        <span class="text-danger" asp-validation-for="Salary"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Address"></label>
-        <input class=" form-control" asp-for="Address" />
-        <span class="text-danger" asp-validation-for="Address"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="Email"></label>
-        <input class=" form-control" asp-for="Email" />
-        <span class="text-danger" asp-validation-for="Email"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="PhoneNumber"></label>
-        <input class=" form-control" asp-for="PhoneNumber" />
-        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="HireDate"></label>
-        <input class=" form-control" asp-for="HireDate" />
-        <span class="text-danger" asp-validation-for="HireDate"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="col-form-label" asp-for="IsActive"></label>
-        <input class=" form-control" asp-for="IsActive" />
-        <span class="text-danger" asp-validation-for="IsActive"></span>
-    </div>
-
-    @* <partial name="PartialViews/CreateEdit" /> *@
+    
+    <partial name="PartialViews/CreateEditPartialView" />
     <input class="btn btn-primary" type="submit" value="Submit" />
     <a class="btn btn-light" asp-action="Index">Back To List</a>
 </form>
-@section ValidationScriptSection {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> }
+<partial name="_ValidationScriptsPartial" />
