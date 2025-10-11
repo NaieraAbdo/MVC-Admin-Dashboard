@@ -5,18 +5,20 @@
     var dept = new SelectList(departmentRepo.GetAll(), "Id", "Name");
 }
 
+@* this for the keeping the old imagename saved when editing another things in edit *@
+<input asp-for="ImageName" hidden />
 
-@* <input asp-for="ImageName" hidden /> *@
+
 <div class="form-group">
     <label class="col-form-label" asp-for="Name"></label>
     <input class=" form-control" asp-for="Name" />
     <span class="text-danger" asp-validation-for="Name"></span>
 </div>
 
-@* <div class="form-group">
+<div class="form-group">
     <label class="col-form-label" asp-for="Image"></label>
     <input class=" form-control" asp-for="Image" />
-</div> *@
+</div>
 
 
 <div class="form-group">

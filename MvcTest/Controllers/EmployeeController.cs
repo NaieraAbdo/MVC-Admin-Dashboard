@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Mvc.BLL.Interfaces;
 using Mvc.DAL.Models;
+using Mvc.PAL.Helpers;
 using Mvc.PAL.ViewModels;
 
 namespace Mvc.PAL.Controllers
@@ -49,6 +50,7 @@ namespace Mvc.PAL.Controllers
             //if (ModelState.IsValid)
             //Department is Invalid
             //{
+            empVM.ImageName = DocumentSettings.UploadFile(empVM.Image, "Images");
             var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(empVM);
             unitOfWork.EmployeeRepo.Add(mappedEmp);
             unitOfWork.Complete();
@@ -79,10 +81,14 @@ namespace Mvc.PAL.Controllers
         {
             if (id != employeeVM.Id)
                 return BadRequest();
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
+                    if(employeeVM.Image is not null)
+                {
+                    employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "Images");
+                }
                     var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                     unitOfWork.EmployeeRepo.Update(mappedEmp);
                     unitOfWork.Complete();
@@ -93,7 +99,7 @@ namespace Mvc.PAL.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
 
-            }
+            //}
             //ViewBag.depts = departmentRepo.GetAll();
             return View(employeeVM);
         }
@@ -112,7 +118,11 @@ namespace Mvc.PAL.Controllers
             {
                 var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                 unitOfWork.EmployeeRepo.Delete(mappedEmp);
-                unitOfWork.Complete();
+               var Result = unitOfWork.Complete();
+                if(Result>0 && employeeVM.ImageName is not null)
+                {
+                    DocumentSettings.DeleteFile(employeeVM.ImageName, "Images");
+                }
 
 
                 return RedirectToAction(nameof(Index));

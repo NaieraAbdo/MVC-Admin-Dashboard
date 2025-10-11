@@ -6,7 +6,9 @@
 <h1>Edit @Model.Name Employee</h1>
 <div asp-validation-summary="All"></div>
 @* this is for catch exception *@
-<form asp-action="Edit">
+
+@* the enctype down there without it cause exception the image sent is null *@
+<form asp-action="Edit" enctype="multipart/form-data">
     
     <partial name="PartialViews/CreateEditPartialView" />
     <input class="btn btn-primary" type="submit" value="Submit" />

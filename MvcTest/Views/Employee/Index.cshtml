@@ -21,7 +21,7 @@
         <thead>
             <tr>
                 <td>@Html.DisplayNameFor(e => e.Name)</td>
-                @* <td>@Html.DisplayNameFor(e => e.Image)</td> *@
+                <td>@Html.DisplayNameFor(e => e.Image)</td>
                 <td>@Html.DisplayNameFor(e => e.Age)</td>
                 <td>@Html.DisplayNameFor(e => e.Salary)</td>
                 <td>@Html.DisplayNameFor(e => e.Department)</td>
@@ -41,7 +41,7 @@
             {
                 <tr>
                     <td>@emp.Name</td>
-                    @* <td><img src="~/Files/Images/@emp.ImageName" class="rounded " height="40" width="40" /></td> *@
+                    <td><img src="~/Files/Images/@emp.ImageName" class="rounded " height="40" width="40" /></td>
                     <td>@emp.Age</td>
                     <td>@Html.DisplayFor(E => emp.Salary)</td>
                     <td>@Html.DisplayFor(E => emp.Department.Name)</td>

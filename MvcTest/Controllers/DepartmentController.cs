@@ -20,7 +20,7 @@ namespace Mvc.PAL.Controllers
         }
         public IActionResult Index()
         {
-            var departments = unitOfWork.EmployeeRepo.GetAll();
+            var departments = unitOfWork.DepartmentRepo.GetAll();
             return View(departments);
         }
 
