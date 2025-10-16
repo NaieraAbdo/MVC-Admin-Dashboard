@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Mvc.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Mvc.DAL.Contexts
 {
-    public class MvcDbcontext:DbContext
+    public class MvcDbcontext:IdentityDbContext<ApplicationUser>
     {
         public MvcDbcontext(DbContextOptions<MvcDbcontext> options):base(options)
         {

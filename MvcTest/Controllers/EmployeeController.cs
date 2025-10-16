@@ -4,6 +4,7 @@ using Mvc.BLL.Interfaces;
 using Mvc.DAL.Models;
 using Mvc.PAL.Helpers;
 using Mvc.PAL.ViewModels;
+using System.Threading.Tasks;
 
 namespace Mvc.PAL.Controllers
 {
@@ -24,12 +25,12 @@ namespace Mvc.PAL.Controllers
             //this.departmentRepo = departmentRepo;
             this.mapper = mapper;
         }
-        public IActionResult Index(string SearchValue)
+        public async Task<IActionResult> Index(string SearchValue)
         {
             IEnumerable<Employee> emps;
             //if(searchName is not null)
             if (string.IsNullOrEmpty(SearchValue))
-                emps = unitOfWork.EmployeeRepo.GetAll();
+                emps = await unitOfWork.EmployeeRepo.GetAllAsync();
                     
             else
                 emps = unitOfWork.EmployeeRepo.GetEmployeesByName(SearchValue);
@@ -45,39 +46,39 @@ namespace Mvc.PAL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EmployeeViewModel empVM)
+        public async Task<IActionResult> Create(EmployeeViewModel empVM)
         {
             //if (ModelState.IsValid)
             //Department is Invalid
             //{
             empVM.ImageName = DocumentSettings.UploadFile(empVM.Image, "Images");
             var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(empVM);
-            unitOfWork.EmployeeRepo.Add(mappedEmp);
-            unitOfWork.Complete();
+            await unitOfWork.EmployeeRepo.AddAsync(mappedEmp);
+            await unitOfWork.CompleteAsync();
             return RedirectToAction(nameof(Index));
             //}
             //return View(emp);
         }
 
-        public IActionResult Details(int? id, string ViewName = "Details")
+        public async Task<IActionResult> Details(int? id, string ViewName = "Details")
         {
             if (id is null)
                 return BadRequest();
-            var employee = unitOfWork.EmployeeRepo.GetById(id.Value);
+            var employee = await unitOfWork.EmployeeRepo.GetByIdAsync(id.Value);
             if (employee is null)
                 return NotFound();
             var mappedEmp = mapper.Map<Employee, EmployeeViewModel>(employee);
             return View(ViewName, mappedEmp);
         }
 
-        public  IActionResult Edit(int? id)
+        public  async Task<IActionResult> Edit(int? id)
         {
-            return Details(id, "Edit");
+            return await Details(id, "Edit");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(EmployeeViewModel employeeVM, [FromRoute] int id)
+        public async Task<IActionResult> Edit(EmployeeViewModel employeeVM, [FromRoute] int id)
         {
             if (id != employeeVM.Id)
                 return BadRequest();
@@ -91,7 +92,7 @@ namespace Mvc.PAL.Controllers
                 }
                     var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                     unitOfWork.EmployeeRepo.Update(mappedEmp);
-                    unitOfWork.Complete();
+                    await unitOfWork.CompleteAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (System.Exception ex)
@@ -104,13 +105,13 @@ namespace Mvc.PAL.Controllers
             return View(employeeVM);
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return  Details(id, "Delete");
+            return await Details(id, "Delete");
         }
 
         [HttpPost]
-        public IActionResult Delete(EmployeeViewModel employeeVM, [FromRoute] int? id)
+        public async Task<IActionResult> Delete(EmployeeViewModel employeeVM, [FromRoute] int? id)
         {
             if (id != employeeVM.Id)
                 return BadRequest();
@@ -118,7 +119,7 @@ namespace Mvc.PAL.Controllers
             {
                 var mappedEmp = mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                 unitOfWork.EmployeeRepo.Delete(mappedEmp);
-               var Result = unitOfWork.Complete();
+               var Result = await unitOfWork.CompleteAsync();
                 if(Result>0 && employeeVM.ImageName is not null)
                 {
                     DocumentSettings.DeleteFile(employeeVM.ImageName, "Images");

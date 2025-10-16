@@ -2,6 +2,7 @@
 using Mvc.BLL.Interfaces;
 using Mvc.BLL.Repositories;
 using Mvc.DAL.Models;
+using System.Threading.Tasks;
 
 namespace Mvc.PAL.Controllers
 {
@@ -18,9 +19,9 @@ namespace Mvc.PAL.Controllers
             this.unitOfWork = unitOfWork;
             //this.departmentRepo = departmentRepo;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var departments = unitOfWork.DepartmentRepo.GetAll();
+            var departments = await unitOfWork.DepartmentRepo.GetAllAsync();
             return View(departments);
         }
 
@@ -30,31 +31,31 @@ namespace Mvc.PAL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Department department)
+        public async Task<IActionResult> Create(Department department)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.DepartmentRepo.Add(department);
-                unitOfWork.Complete();
+              await unitOfWork.DepartmentRepo.AddAsync(department);
+               await unitOfWork.CompleteAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(department);
         }
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id is null)
                 return BadRequest();
-            var department = unitOfWork.DepartmentRepo.GetById(id.Value);
+            var department = await unitOfWork.DepartmentRepo.GetByIdAsync(id.Value);
             if (department is null)
                 return NotFound();
              return View(department);
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
                 return BadRequest();
-            var department = unitOfWork.DepartmentRepo.GetById(id.Value);
+            var department = await unitOfWork.DepartmentRepo.GetByIdAsync(id.Value);
             if (department is null)
                 return NotFound();
             return View(department);
@@ -62,7 +63,7 @@ namespace Mvc.PAL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Department department, [FromRoute] int id)
+        public async Task<IActionResult> Edit(Department department, [FromRoute] int id)
         {
             if (id != department.Id)
                 return BadRequest();
@@ -71,7 +72,7 @@ namespace Mvc.PAL.Controllers
                 try
                 {
                     unitOfWork.DepartmentRepo.Update(department);
-                    unitOfWork.Complete();
+                   await unitOfWork.CompleteAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (System.Exception ex)
@@ -83,11 +84,11 @@ namespace Mvc.PAL.Controllers
         }
 
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null)
                 return BadRequest();
-            var department = unitOfWork.DepartmentRepo.GetById(id.Value);
+            var department = await unitOfWork.DepartmentRepo.GetByIdAsync(id.Value);
             if (department is null)
                 return NotFound();
             return View(department);
@@ -95,7 +96,7 @@ namespace Mvc.PAL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Department department, [FromRoute] int id)
+        public async Task<IActionResult> Delete(Department department, [FromRoute] int id)
         {
             if (id != department.Id)
                 return BadRequest();
@@ -104,7 +105,7 @@ namespace Mvc.PAL.Controllers
                 try
                 {
                     unitOfWork.DepartmentRepo.Delete(department);
-                    unitOfWork.Complete();
+                   await unitOfWork.CompleteAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (System.Exception ex)

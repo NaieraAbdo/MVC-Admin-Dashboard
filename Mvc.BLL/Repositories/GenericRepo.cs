@@ -20,9 +20,9 @@ namespace Mvc.BLL.Repositories
             this.dbcontext = dbcontext;
         }
 
-        public void Add(T item)
+        public async Task AddAsync(T item)
         {
-            dbcontext.Add(item);
+          await  dbcontext.AddAsync(item);
             //return dbcontext.SaveChanges();
         }
 
@@ -32,15 +32,15 @@ namespace Mvc.BLL.Repositories
             //return dbcontext.SaveChanges();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             if(typeof(T) == typeof(Employee))
-                return (IEnumerable<T>) dbcontext.Employees.Include(e => e.Department).ToList();
-            return dbcontext.Set<T>().ToList();
+                return  (IEnumerable<T>) await dbcontext.Employees.Include(e => e.Department).ToListAsync();
+            return await dbcontext.Set<T>().ToListAsync();
         }
 
-        public T GetById(int id)
-        => dbcontext.Set<T>().Find(id);
+        public async Task<T> GetByIdAsync(int id)
+        => await dbcontext.Set<T>().FindAsync(id);
         
 
         public void Update(T item)

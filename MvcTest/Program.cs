@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Mvc.BLL.Interfaces;
 using Mvc.BLL.Repositories;
 using Mvc.DAL.Contexts;
+using Mvc.DAL.Models;
 using Mvc.PAL.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +21,24 @@ builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
 builder.Services.AddScoped<IEmployeeRepo,EmployeeRepo>();
 builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddIdentity<ApplicationUser,IdentityRole>(Options =>
+{
+    Options.Password.RequireNonAlphanumeric = true;
+    Options.Password.RequireDigit = true;
+    Options.Password.RequireLowercase = true;
+    Options.Password.RequireUppercase = true;
+})
+    .AddEntityFrameworkStores<MvcDbcontext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(Options =>
+    {
+        Options.LoginPath = "Account/Login";
+        Options.AccessDeniedPath = "Home/Error";
+    });
+
 var app = builder.Build(); 
 
 // Configure the HTTP request pipeline.
@@ -32,10 +54,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

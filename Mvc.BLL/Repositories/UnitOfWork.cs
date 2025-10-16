@@ -26,9 +26,9 @@ namespace Mvc.BLL.Repositories
             dbcontext.Dispose();
         }
 
-        public int Complete()
+        public async Task<int> CompleteAsync()
         {
-            return dbcontext.SaveChanges();
+            return await dbcontext.SaveChangesAsync();
         }
     }
 }

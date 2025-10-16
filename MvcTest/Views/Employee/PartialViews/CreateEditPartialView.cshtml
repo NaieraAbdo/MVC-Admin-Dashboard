@@ -2,7 +2,7 @@
 @model EmployeeViewModel
 @inject IDepartmentRepo departmentRepo
 @{
-    var dept = new SelectList(departmentRepo.GetAll(), "Id", "Name");
+    var dept = new SelectList(departmentRepo.GetAllAsync().Result, "Id", "Name");
 }
 
 @* this for the keeping the old imagename saved when editing another things in edit *@

@@ -11,6 +11,6 @@ namespace Mvc.BLL.Interfaces
         public IEmployeeRepo EmployeeRepo { get; set; }
         public IDepartmentRepo DepartmentRepo { get; set; }
 
-        public int Complete();
+        public Task<int> CompleteAsync();
     }
 }
