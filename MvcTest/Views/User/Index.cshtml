@@ -1,0 +1,48 @@
+﻿ @model IEnumerable<userViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+@if(Model.Count()> 0)
+{
+    <table class="table table-striped table-hover mt-5">
+        <thead>
+            <tr>
+                <td>@Html.DisplayNameFor(U=>U.Id)</td>
+                <td>@Html.DisplayNameFor(U=>U.FName)</td>
+                <td>@Html.DisplayNameFor(U => U.LName)</td>
+                <td>@Html.DisplayNameFor(U => U.Email)</td>
+                <td>@Html.DisplayNameFor(U => U.PhoneNumber)</td>
+                <td>@Html.DisplayNameFor(U => U.Roles)</td>
+                <td>Details</td>
+                <td>Update</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FName</td>
+                    <td>@user.LName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@string.Join(",",user.Roles)</td>
+                    <partial name="_ButtonsPartialView" model="user.Id" />
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <div>
+        <h1> There is no Users .</h1>
+    </div>
+}
+
