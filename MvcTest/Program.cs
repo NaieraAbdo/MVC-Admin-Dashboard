@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,10 @@ builder.Services.AddDbContext<MvcDbcontext>(Options =>
 
 builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
 builder.Services.AddScoped<IEmployeeRepo,EmployeeRepo>();
-builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+//builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+//builder.Services.AddAutoMapper(M => M.AddProfile(new UserProfile()));
+builder.Services.AddAutoMapper(M =>M.AddProfiles(new List<Profile>() { new EmployeeProfile() , new UserProfile() , new RoleProfile()}));
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddIdentity<ApplicationUser,IdentityRole>(Options =>

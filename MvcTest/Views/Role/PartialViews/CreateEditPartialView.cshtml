@@ -1,0 +1,15 @@
+﻿@model RoleViewModel
+
+
+
+<div class="form-group">
+   
+    <label class="col-form-label" asp-for="Id"></label>
+    <input readonly class=" form-control" asp-for="Id" />
+    <span class="text-danger" asp-validation-for="Id"></span>
+        
+    <label class="col-form-label" asp-for="RoleName"></label>
+    <input class=" form-control" asp-for="RoleName" />
+    <span class="text-danger" asp-validation-for="RoleName"></span>
+</div>
+

@@ -1,10 +1,10 @@
-﻿@using Mvc.DAL.Models
-@model Department
+﻿
+@model RoleViewModel
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit @Model.Name Department</h1>
+<h1>Edit @Model.RoleName Role</h1>
 
 <div asp-validation-summary="All"></div>
 @* this is for catch exception *@
@@ -12,7 +12,9 @@
 <form asp-action="Edit">
 
     <partial name="PartialViews/CreateEditPartialView" />
+
     <input class="btn btn-primary" type="submit" value="Save" />
     <a class="btn btn-light" asp-action="Index">Back To List</a>
 </form>
 <partial name="_ValidationScriptsPartial" />
+
